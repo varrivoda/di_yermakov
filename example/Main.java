@@ -6,6 +6,7 @@ package example;
 import example.Bean;
 import example.Config;
 import example.Container;
+import lombok.SneakyThrows;
 
 import java.lang.reflect.InvocationTargetException;
 //import java.lang.IllegalAccessException;
@@ -14,32 +15,20 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Main{
-	public static void main(String[] args) throws IllegalAccessException, 
-											InvocationTargetException{
-		/*
-		создание объектов вручную
-		Sun sun = new Sun(7);
-		Planet planet1 = new Planet ("Earth");
-		List<Planet> planets =  new ArrayList<>();
-		planets.add(planet1);
-		SolarSystem solarSystem = new SolarSystem(sun, planets);
-		System.out.println(solarSystem);
-		*/
+	@SneakyThrows
+	public static void main(String[] args) throws Throwable{	// IllegalAccessException, InvocationTargetException{
+
 		SolarSystem solarSystem = new SolarSystem();
 		
-		Container container = new Container();
-		container.load(Config.class);
-		List listObjects = container.getListObjects();
+		Container container = new Container(Config.class);
 		
-		for(int i=0; i<listObjects.size(); i++){
-			if(listObjects.get(i) instanceof Sun){
-				solarSystem.sun = (Sun)listObjects.get(i);
-			}else{
-				solarSystem.planets.add((Planet)listObjects.get(i));
-			}
-		}
+		//List listObjects = container.getListObjects();
 		
-		System.out.println(listObjects);
+		solarSystem.sun = container.getBean("sun", Sun.class);
+		solarSystem.planets.add(container.getBean("mercury", Planet.class));
+		solarSystem.planets.add(container.getBean("venus", Planet.class));
+		
+		System.out.println(solarSystem);
 		
 	}
 }
@@ -83,6 +72,19 @@ class SolarSystem{
 	
 	public String toString(){
 		return sun + ", and planets are: "
-				+ planets.size();
+				+ planets;
 	}
 }
+
+/*
+old main(){
+	Container continer = new Container();
+	container.load(Config.class);
+	container.getListObjects();
+	
+	for (inti=0;i<listObjects.size(); i++){
+		if(listObjects.get(i) instanceof Sun) sSystem.sun = (Sun) listObjects.get(i)
+		else sSystem.planets.add((Planet)listObjects.get(i));
+	}
+}
+*/
