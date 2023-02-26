@@ -1,7 +1,7 @@
 package example;
 
 import example.Bean;
-import
+import java.util.Random;
 
 public class Config{
 	
@@ -11,7 +11,6 @@ public class Config{
 		return new Planet("Mercury");
 	}
 	
-	
 	@Bean
 	public static Planet venus(){
 		//..do something
@@ -19,8 +18,10 @@ public class Config{
 	}
 
 	@Bean("sun")
+	@Prototype
 	public static Sun getSun(){
-		//..do something
-		return new Sun(5);
+		//random Brightness here
+		Random random = new Random();
+		return new Sun(random.nextInt(100));
 	}
 }

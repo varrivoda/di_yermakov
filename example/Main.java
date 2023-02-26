@@ -28,6 +28,10 @@ public class Main{
 		solarSystem.planets.add(container.getBean("mercury", Planet.class));
 		solarSystem.planets.add(container.getBean("venus", Planet.class));
 		
+		solarSystem.sun = container.getBean("sun", Sun.class);
+		System.out.println(solarSystem);
+		
+		solarSystem.sun = container.getBean("sun", Sun.class);
 		System.out.println(solarSystem);
 		
 	}
